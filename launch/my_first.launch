@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <group ns="my_namespace">
+        <node name="talker" pkg="study_pkg" type="talker.py" output="screen"/>
+        <node name="listener" pkg="study_pkg" type="listener.py" output="screen"/>
+    </group>
+</launch>
