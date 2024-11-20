@@ -1,7 +1,14 @@
 <?xml version="1.0"?>
 <launch>
-    <group ns="my_namespace">
-        <node name="talker" pkg="study_pkg" type="talker.py" output="screen"/>
-        <node name="listener" pkg="study_pkg" type="listener.py" output="screen"/>
+    <group ns="new_ns">
+        <arg name="new_topic_name" default="its_new_chatter" />
+
+        <include file="$(find study_pkg)/launch/another_one.launch" />
+        <node name="talker2" pkg="study_pkg" type="talker.py" output="screen">
+            <remap from="my_chat_topic" to="$(arg new_topic_name)"/>
+        </node>
+        <node name="listener2" pkg="study_pkg" type="listener.py" output="screen">
+            <remap from="my_chat_topic" to="$(arg new_topic_name)"/>
+        </node>
     </group>
 </launch>
