@@ -14,8 +14,15 @@ def image_callback(img):
         
         cv2.rectangle(cv_image,(20,20),(200,200),(255,255,0),2)
         cv2.imshow('Video frame',cv_image)
+
+        vid_capture = cv2.VideoCapture(cv_image)
+        _,frame=vid_capture.read()
+        
         if cv2.waitKey(1) & 0xFF == ord('q'):
          break
+        
+    bridge.release()
+    cv2.destroyallWindows()
       
 
 rospy.init_node('camera_viewer')
