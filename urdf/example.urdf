@@ -47,7 +47,7 @@
         <child link="link_2"/>
         <origin xyz="0 0 0.15"/>
         <axis xyz="0 0 1"/>
-        <limit effort="5" velocity="2.0" lower="0" upper="3.14"/>
+        <limit effort="5" velocity="2.0" lower="-3.10" upper="3.10"/>
     </joint>
 
     <link name="link_2">
@@ -73,7 +73,7 @@
         <child link="link_3"/>
         <origin xyz="0 0 0.15"/>
         <axis xyz="1 0 0"/>
-        <limit effort="5" velocity="2.0" lower="0" upper="2.13"/>
+        <limit effort="5" velocity="2.0" lower="-2.13" upper="2.13"/>
     </joint>
 
     <link name="link_3">
@@ -99,7 +99,7 @@
         <child link="link_4"/>
         <origin xyz="0 0 0.3"/>
         <axis xyz="1 0 0"/>
-        <limit effort="5" velocity="2.0" lower="0" upper="2.65"/>
+        <limit effort="5" velocity="2.0" lower="-2.65" upper="2.65"/>
     </joint>
 
     <link name="link_4">
@@ -115,7 +115,7 @@
         <collision>
              <origin xyz="0 0 0.05" rpy="0 0 0"/>
             <geometry>
-                <cylinder radius="0.1" length="0.1"/>
+                 <cylinder radius="0.05" length="0.1"/>
             </geometry>
         </collision>
     </link>
@@ -125,7 +125,7 @@
         <child link="link_5"/>
         <origin xyz="0 0 0.1"/>
         <axis xyz="0 0 1"/>
-        <limit effort="5" velocity="2.0" lower="0" upper="3.14"/>
+        <limit effort="5" velocity="2.0" lower="-3.10" upper="3.10"/>
     </joint>
 
     <link name="link_5">
@@ -141,7 +141,7 @@
         <collision>
              <origin xyz="0 0 0.05" rpy="0 0 0"/>
             <geometry>
-                <cylinder radius="0.1" length="0.1"/>
+                <cylinder radius="0.05" length="0.1"/>
             </geometry>
         </collision>
     </link>
@@ -151,7 +151,7 @@
         <child link="link_6"/>
         <origin xyz="0 0 0.1"/>
         <axis xyz="1 0 0"/>
-        <limit effort="5" velocity="2.0" lower="0" upper="2.65"/>
+        <limit effort="5" velocity="2.0" lower="-2.65" upper="2.65"/>
     </joint>
 
     <link name="link_6">
@@ -177,7 +177,7 @@
         <child link="link_7"/>
         <origin xyz="0 0 0.08"/>
         <axis xyz="0 0 1"/>
-        <limit effort="5" velocity="2.0" lower="0" upper="3.14"/>
+        <limit effort="5" velocity="2.0" lower="-3.10" upper="3.10"/>
     </joint>
 
     <link name="link_7">
@@ -191,7 +191,7 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <origin xyz="0 0 0.035" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.04" length="0.07"/>
             </geometry>
