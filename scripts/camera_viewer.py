@@ -16,11 +16,7 @@ def image_callback(img):
         cv2.imshow('Video frame',cv_image)
         if cv2.waitKey(1) & 0xFF == ord('q'):
          break
-        i+=1
-   
-
-
-    
+        i+=1     
 
 rospy.init_node('camera_viewer')
 rospy.Subscriber('/usb_cam/image_raw', Image , image_callback, queue_size=10)
