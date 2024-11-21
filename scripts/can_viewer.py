@@ -11,6 +11,7 @@ def CallbackFunction(message):
     bridge=CvBridge()
     rospy.loginfo("received a vdeo")
     converterfromBackToCv=bridge.imgmsg_to_cv2(message) #вооооооооот здесь ошибка
+
     cv2.imshow("camera",converterfromBackToCv)
     cv2.waitKey(1)
 

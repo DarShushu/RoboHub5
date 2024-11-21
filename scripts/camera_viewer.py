@@ -7,7 +7,7 @@ bridge = CvBridge()
 
 
 def image_callback(img):
-    
+
     while True:
 
         cv_image = bridge.imgmsg_to_cv2(img,"bgr8")
@@ -20,7 +20,7 @@ def image_callback(img):
         
         if cv2.waitKey(1) & 0xFF == ord('q'):
          break
-        
+
     bridge.release()
     cv2.destroyallWindows()
       
