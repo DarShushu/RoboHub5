@@ -4,28 +4,33 @@ import cv2
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 bridge = CvBridge()
+  
 
+def CallbackFunction(message):
+    bridge=CvBridge()
+    rospy.loginfo("received a vdeo")
+    converterfromBackToCv=bridge.imgmsg_to_cv2(message,"bgr8") #вооооооооот здесь ошибка
 
-def image_callback(img):
+    cv2.rectangle(converterfromBackToCv,(20,20),(200,200),(255,255,0),2)
 
-    while True:
+    cv2.imshow("camera",converterfromBackToCv)
+    cv2.waitKey(1)
 
-        cv_image = bridge.imgmsg_to_cv2(img,"bgr8")
-        
-        cv2.rectangle(cv_image,(20,20),(200,200),(255,255,0),2)
-        cv2.imshow('Video frame',cv_image)
+rospy.init_node("camera_viewer",anonymous=True)
 
-        vid_capture = cv2.VideoCapture(cv_image)
-        _,frame=vid_capture.read()
-        
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-         break
+rospy.Subscriber("/usb_cam/image_raw",Image,CallbackFunction)
+publisher=rospy.Publisher("/usb_cam/image_raw",Image,queue_size=60)
 
-    bridge.release()
-    cv2.destroyallWindows()
-      
+rate=rospy.Rate(60)
+vid_capture = cv2.VideoCapture(0)
 
-rospy.init_node('camera_viewer')
-rospy.Subscriber('/usb_cam/image_raw', Image , image_callback, queue_size=10)
-# pub = rospy.Publisher('/contour_color', ( gthtvtyyfz dsdjlf), queue_size=10)
-# rospy.spin()
+while not rospy.is_shutdown():
+    returnValue,capturedframe=vid_capture.read()
+    if returnValue==True:
+        rospy.loginfo("video frame captured and published")
+        imageToTransmit=bridge.cv2_to_imgmsg(capturedframe)
+        publisher.publish(imageToTransmit)
+    rate.sleep()
+
+ate=rospy.Rate(60)
+
