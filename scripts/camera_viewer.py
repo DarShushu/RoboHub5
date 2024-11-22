@@ -4,7 +4,10 @@ import cv2
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 bridge = CvBridge()
-  
+from std_msgs.msg import String
+
+msg = String()
+color = []
 
 def CallbackFunction(message):
     bridge=CvBridge()
@@ -13,7 +16,6 @@ def CallbackFunction(message):
 
 
 # начало цикла обработки
-    color = []
 
     img_red = cv2.inRange(img, (0, 0, 139), (128, 128, 240)) #цвета в gbr
     contours_red, _  = cv2.findContours(img_red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -73,6 +75,11 @@ def CallbackFunction(message):
 
     # cv2.imshow('wow its red', img_red)
     print(color)
+    # create string colors
+    msg= ' '.join(color)
+    pub.publish(msg)
+    
+
     for col in color:
         color.pop
 
@@ -86,6 +93,9 @@ rospy.init_node("camera_viewer",anonymous=True)
 
 rospy.Subscriber("/usb_cam/image_raw",Image,CallbackFunction)
 publisher=rospy.Publisher("/usb_cam/image_raw",Image,queue_size=60)
+pub = rospy.Publisher('my_chat_topic', String, queue_size=10)
+
+
 
 rate=rospy.Rate(60)
 vid_capture = cv2.VideoCapture(0)
