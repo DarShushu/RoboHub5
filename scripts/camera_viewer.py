@@ -6,15 +6,14 @@ from sensor_msgs.msg import Image
 bridge = CvBridge()
 from std_msgs.msg import String
 
-msg = String()
-color = []
+
 
 def CallbackFunction(message):
     bridge=CvBridge()
+    msg = String()
+    color = []
     rospy.loginfo("received a vdeo")
     img=bridge.imgmsg_to_cv2(message,"bgr8") #вооооооооот здесь ошибка
-
-
 # начало цикла обработки
 
     img_red = cv2.inRange(img, (0, 0, 139), (128, 128, 240)) #цвета в gbr
@@ -24,6 +23,8 @@ def CallbackFunction(message):
             x, y, w, h = cv2.boundingRect(cont)
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
             
+            cv2.putText(img, "red", (x+w//2-20, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+
             flag = False
             for col in color:
                 if col == "red":
@@ -37,6 +38,9 @@ def CallbackFunction(message):
         if cv2.contourArea(cont) > 3000:
             x, y, w, h = cv2.boundingRect(cont)
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 255), 2)
+
+            cv2.putText(img, "yellow", (x+w//2-40, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+            
             
             flag = False
             for col in color:
@@ -51,6 +55,9 @@ def CallbackFunction(message):
         if cv2.contourArea(cont) > 3000:
             x, y, w, h = cv2.boundingRect(cont)
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+            cv2.putText(img, "green", (x+w//2-40, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+            
             
             flag = False
             for col in color:
@@ -65,6 +72,9 @@ def CallbackFunction(message):
         if cv2.contourArea(cont) > 3000:
             x, y, w, h = cv2.boundingRect(cont)
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+
+            cv2.putText(img, "blue", (x+w//2-40, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+            
             
             flag = False
             for col in color:
@@ -79,14 +89,15 @@ def CallbackFunction(message):
     msg= ' '.join(color)
     pub.publish(msg)
     
+    #обнуление
+    msg=""
 
     for col in color:
         color.pop
 
- #конец обработки
+     #конец обработки
 
-
-    cv2.imshow("camera",img)
+    cv2.imshow("wow it works too!!",img)
     cv2.waitKey(1)
 
 rospy.init_node("camera_viewer",anonymous=True)
