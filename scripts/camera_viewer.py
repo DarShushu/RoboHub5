@@ -17,15 +17,19 @@ def CallbackFunction(message):
     img=bridge.imgmsg_to_cv2(message,"bgr8") #вооооооооот здесь ошибка
     # начало цикла обработки
 
-    img_red = cv2.inRange(img, (0, 0, 139), (128, 128, 240)) #цвета в gbr
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    # HSV
+    img_red = cv2.inRange(hsv, (0, 50, 50), (13, 255, 255)) #цвета в hsv
+    img_red += cv2.inRange(hsv, (170, 50, 50), (180, 255, 255)) #цвета в hsv
     contours_red, _  = cv2.findContours(img_red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     for cont in contours_red:
         if cv2.contourArea(cont) > 3000:
             x, y, w, h = cv2.boundingRect(cont)
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
-            
-            cv2.putText(img, "red", (x+w//2-20, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
 
+            cv2.putText(img, "red", (x+w//2-20, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+            
             flag = False
             for col in color:
                 if col == "red":
@@ -33,15 +37,30 @@ def CallbackFunction(message):
             if flag == False:
                 color.append("red")
 
-    img_yel = cv2.inRange(img, (0, 165, 165), (150, 254, 255)) #цвета в gbr
-    contours_yel, _  = cv2.findContours(img_yel, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    for cont in contours_yel:
+    img_orange = cv2.inRange(hsv, (15, 50, 50), (20, 255, 255)) #цвета в hsv
+    contours_orange, _  = cv2.findContours(img_orange, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cont in contours_orange:
+        if cv2.contourArea(cont) > 3000:
+            x, y, w, h = cv2.boundingRect(cont)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 69, 255), 2)
+
+            cv2.putText(img, "orange", (x+w//2-20, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+            
+            flag = False
+            for col in color:
+                if col == "orange":
+                    flag = True
+            if flag == False:
+                color.append("orange")
+
+    img_yellow = cv2.inRange(hsv, (25, 50, 50), (33, 255, 255)) #цвета в hsv
+    contours_yellow, _  = cv2.findContours(img_yellow, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cont in contours_yellow:
         if cv2.contourArea(cont) > 3000:
             x, y, w, h = cv2.boundingRect(cont)
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 255), 2)
 
-            cv2.putText(img, "yellow", (x+w//2-40, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
-            
+            cv2.putText(img, "yellow", (x+w//2-20, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
             
             flag = False
             for col in color:
@@ -50,15 +69,14 @@ def CallbackFunction(message):
             if flag == False:
                 color.append("yellow")
 
-    img_gr = cv2.inRange(img, (0, 77, 9), (100, 255, 100)) #цвета в gbr
-    contours_gr, _  = cv2.findContours(img_gr, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    for cont in contours_gr:
+    img_green = cv2.inRange(hsv, (35, 50, 50), (75, 255, 255)) #цвета в hsv
+    contours_green, _  = cv2.findContours(img_green, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cont in contours_green:
         if cv2.contourArea(cont) > 3000:
             x, y, w, h = cv2.boundingRect(cont)
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-            cv2.putText(img, "green", (x+w//2-40, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
-            
+            cv2.putText(img, "green", (x+w//2-20, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
             
             flag = False
             for col in color:
@@ -67,15 +85,14 @@ def CallbackFunction(message):
             if flag == False:
                 color.append("green")
 
-    img_bl = cv2.inRange(img, (127,20,0), (255, 124, 108)) #цвета в gbr
-    contours_bl, _  = cv2.findContours(img_bl, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    for cont in contours_bl:
+    img_blue = cv2.inRange(hsv, (100, 50, 50), (130, 255, 255)) #цвета в hsv
+    contours_blue, _  = cv2.findContours(img_blue, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cont in contours_blue:
         if cv2.contourArea(cont) > 3000:
             x, y, w, h = cv2.boundingRect(cont)
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
-            cv2.putText(img, "blue", (x+w//2-40, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
-            
+            cv2.putText(img, "blue", (x+w//2-20, y+h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
             
             flag = False
             for col in color:
@@ -83,8 +100,6 @@ def CallbackFunction(message):
                     flag = True
             if flag == False:
                 color.append("blue")
-
-    # cv2.imshow('wow its red', img_red)
     print(color)
     # create string colors
     msg= ' '.join(color)
