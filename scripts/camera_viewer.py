@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import rospy
+
 import cv2
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
@@ -14,7 +15,7 @@ def CallbackFunction(message):
     color = []
     rospy.loginfo("received a vdeo")
     img=bridge.imgmsg_to_cv2(message,"bgr8") #вооооооооот здесь ошибка
-# начало цикла обработки
+    # начало цикла обработки
 
     img_red = cv2.inRange(img, (0, 0, 139), (128, 128, 240)) #цвета в gbr
     contours_red, _  = cv2.findContours(img_red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -104,7 +105,7 @@ rospy.init_node("camera_viewer",anonymous=True)
 
 rospy.Subscriber("/usb_cam/image_raw",Image,CallbackFunction)
 publisher=rospy.Publisher("/usb_cam/image_raw",Image,queue_size=60)
-pub = rospy.Publisher('my_chat_topic', String, queue_size=10)
+pub = rospy.Publisher('color_list', String, queue_size=10)
 
 
 
