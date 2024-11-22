@@ -9,11 +9,77 @@ bridge = CvBridge()
 def CallbackFunction(message):
     bridge=CvBridge()
     rospy.loginfo("received a vdeo")
-    converterfromBackToCv=bridge.imgmsg_to_cv2(message,"bgr8") #вооооооооот здесь ошибка
+    img=bridge.imgmsg_to_cv2(message,"bgr8") #вооооооооот здесь ошибка
 
-    cv2.rectangle(converterfromBackToCv,(20,20),(200,200),(255,255,0),2)
 
-    cv2.imshow("camera",converterfromBackToCv)
+# начало цикла обработки
+    color = []
+
+    img_red = cv2.inRange(img, (0, 0, 139), (128, 128, 240)) #цвета в gbr
+    contours_red, _  = cv2.findContours(img_red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cont in contours_red:
+        if cv2.contourArea(cont) > 3000:
+            x, y, w, h = cv2.boundingRect(cont)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
+            
+            flag = False
+            for col in color:
+                if col == "red":
+                    flag = True
+            if flag == False:
+                color.append("red")
+
+    img_yel = cv2.inRange(img, (0, 165, 165), (150, 254, 255)) #цвета в gbr
+    contours_yel, _  = cv2.findContours(img_yel, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cont in contours_yel:
+        if cv2.contourArea(cont) > 3000:
+            x, y, w, h = cv2.boundingRect(cont)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 255), 2)
+            
+            flag = False
+            for col in color:
+                if col == "yellow":
+                    flag = True
+            if flag == False:
+                color.append("yellow")
+
+    img_gr = cv2.inRange(img, (0, 77, 9), (100, 255, 100)) #цвета в gbr
+    contours_gr, _  = cv2.findContours(img_gr, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cont in contours_gr:
+        if cv2.contourArea(cont) > 3000:
+            x, y, w, h = cv2.boundingRect(cont)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            
+            flag = False
+            for col in color:
+                if col == "green":
+                    flag = True
+            if flag == False:
+                color.append("green")
+
+    img_bl = cv2.inRange(img, (127,20,0), (255, 124, 108)) #цвета в gbr
+    contours_bl, _  = cv2.findContours(img_bl, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cont in contours_bl:
+        if cv2.contourArea(cont) > 3000:
+            x, y, w, h = cv2.boundingRect(cont)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+            
+            flag = False
+            for col in color:
+                if col == "blue":
+                    flag = True
+            if flag == False:
+                color.append("blue")
+
+    # cv2.imshow('wow its red', img_red)
+    print(color)
+    for col in color:
+        color.pop
+
+ #конец обработки
+
+
+    cv2.imshow("camera",img)
     cv2.waitKey(1)
 
 rospy.init_node("camera_viewer",anonymous=True)
